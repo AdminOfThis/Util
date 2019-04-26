@@ -2,7 +2,7 @@
     "package": {
         "name": "auto-upload",
         "repo": "Util",
-        "subject": "AdminOfThis",
+        "subject": "adminofthis",
         "desc": "I was pushed completely automatically",
         "website_url": "www.jfrog.com",
         "issue_tracker_url": "https://github.com/bintray/bintray-client-java/issues",
