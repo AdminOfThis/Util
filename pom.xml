@@ -10,7 +10,7 @@
 
 	<modules>
 		<module>chords</module>
-	
+
 	</modules>
 
 	<dependencies>
@@ -114,6 +114,14 @@
 		</plugins>
 
 	</build>
+
+	<repositories>
+		<repository>
+			<id>project.local</id>
+			<name>project</name>
+			<url>file:$HOME/.m2/repository</url>
+		</repository>
+	</repositories>
 
 
 
