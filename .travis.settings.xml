@@ -3,19 +3,27 @@
           xmlns='http://maven.apache.org/SETTINGS/1.0.0' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
     <profiles>
         <profile>
-            <id>bintray</id>
             <repositories>
                 <repository>
-                    <id>local</id>
-                    <name>local</name>
-                    <repository>
-                        <url>file:$HOME/.m2/repository</url>
-                    </repository>
                     <snapshots>
                         <enabled>false</enabled>
                     </snapshots>
+                    <id>bintray-adminofthis-Util</id>
+                    <name>bintray</name>
+                    <url>https://dl.bintray.com/adminofthis/Util</url>
                 </repository>
             </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>bintray-adminofthis-Util</id>
+                    <name>bintray-plugins</name>
+                    <url>https://dl.bintray.com/adminofthis/Util</url>
+                </pluginRepository>
+            </pluginRepositories>
+            <id>bintray</id>
         </profile>
     </profiles>
     <activeProfiles>
