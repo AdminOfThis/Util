@@ -1,0 +1,3 @@
+[submodule "chords"]
+	path = chords
+	url = ../Chords
