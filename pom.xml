@@ -6,7 +6,7 @@
 	<artifactId>util</artifactId>
 	<version>1.0.0</version>
 	<name>Util</name>
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
 
 	<dependencies>
 		<!-- log4j -->
@@ -109,15 +109,4 @@
 		</plugins>
 
 	</build>
-
-	<repositories>
-		<repository>
-			<id>project.local</id>
-			<name>project</name>
-			<url>file:$HOME/.m2/repository</url>
-		</repository>
-	</repositories>
-
-
-
 </project>
