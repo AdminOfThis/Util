@@ -8,11 +8,6 @@
 	<name>Util</name>
 	<packaging>pom</packaging>
 
-	<modules>
-		<module>chords</module>
-
-	</modules>
-
 	<dependencies>
 		<!-- log4j -->
 		<dependency>
