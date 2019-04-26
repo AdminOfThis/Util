@@ -12,7 +12,6 @@ notifications:
     on_success: change
     on_failure: change
 deploy:
-  matrix:
   - provider: releases
     skip_cleanup: true
     prerelease: true
