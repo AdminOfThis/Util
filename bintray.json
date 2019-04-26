@@ -20,7 +20,7 @@
 
     "files" :
         [
-        {"includePattern": "target\/.*\.jar", "uploadPattern": "com/github/adminofthis/util/1.0.0/$1", "matrixParams": {
+        {"includePattern": "target/(.*\.jar)", "uploadPattern": "com/github/adminofthis/util/1.0.0/$1", "matrixParams": {
         "override": 1 }},
         {"includePattern": "pom.xml", "uploadPattern": "com/github/adminofthis/util/1.0.0/$1", "matrixParams": {
         "override": 1 }}
