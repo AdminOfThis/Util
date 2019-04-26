@@ -23,7 +23,7 @@
 
     "files":
         [
-        {"includePattern": "target/*.jar", "uploadPattern": "docs/$1"}
+        {"includePattern": "target/(.*)", "uploadPattern": "com/github/adminofthis/util/1.0.0/$1"}
         ],
     "publish": true
 }
