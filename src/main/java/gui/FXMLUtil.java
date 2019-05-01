@@ -19,7 +19,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public abstract class FXMLUtil {
+public final class FXMLUtil {
 
 	private static final Logger		LOG				= LogManager.getLogger(FXMLUtil.class);
 	private static String			styleSheetPath	= "/css/style.css";
@@ -96,12 +96,10 @@ public abstract class FXMLUtil {
 		return result.trim();
 	}
 
-	public static Parent loadFXML(final String string) {
+	public static Parent loadFXML(final URL url) {
 		Parent parent = null;
 		try {
-			URL u = FXMLUtil.class.getResource(string);
-			System.out.println(u.getFile());
-			FXMLLoader loader = new FXMLLoader(FXMLUtil.class.getResource(string));
+			FXMLLoader loader = new FXMLLoader(url);
 			parent = loader.load();
 			setStyleSheet(parent);
 			controller = loader.getController();
@@ -112,10 +110,10 @@ public abstract class FXMLUtil {
 		return parent;
 	}
 
-	public static Parent loadFXML(final String string, final Initializable controller) {
+	public static Parent loadFXML(final URL url, final Initializable controller) {
 		Parent parent = null;
 		try {
-			FXMLLoader loader = new FXMLLoader(FXMLUtil.class.getResource(string));
+			FXMLLoader loader = new FXMLLoader(url);
 			loader.setController(controller);
 			parent = loader.load();
 		}
@@ -134,12 +132,11 @@ public abstract class FXMLUtil {
 
 	public static void setStyleSheet(Parent p) {
 		try {
-			p.getStylesheets().add(FXMLUtil.class.getResource(FXMLUtil.styleSheetPath).toExternalForm());
+			p.getStylesheets().add(FXMLUtil.styleSheetPath);
 			p.setStyle(getDefaultStyle());
 		}
 		catch (Exception e) {
-			LOG.warn("Unable to style dialog", e);
-			LOG.debug("", e);
+			LOG.warn("Unable to style dialog");
 		}
 	}
 
