@@ -3,6 +3,7 @@ package gui;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 
 import org.apache.logging.log4j.LogManager;
@@ -98,14 +99,15 @@ public abstract class FXMLUtil {
 	public static Parent loadFXML(final String string) {
 		Parent parent = null;
 		try {
+			URL u = FXMLUtil.class.getResource(string);
+			System.out.println(u.getFile());
 			FXMLLoader loader = new FXMLLoader(FXMLUtil.class.getResource(string));
 			parent = loader.load();
 			setStyleSheet(parent);
 			controller = loader.getController();
 		}
 		catch (Exception e) {
-			LOG.error("Unable to load FXMLFile");
-			LOG.info("", e);
+			LOG.error("Unable to load FXMLFile", e);
 		}
 		return parent;
 	}

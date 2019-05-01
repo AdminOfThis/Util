@@ -13,6 +13,6 @@ module util {
 	requires transitive javafx.controls;
 	requires transitive javafx.fxml;
 	requires transitive javafx.graphics;
-	requires transitive org.apache.logging.log4j;
 	requires transitive org.apache.logging.log4j.core;
+	requires transitive org.apache.logging.log4j;
 }

@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.jar.Manifest;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javafx.application.Application;
@@ -15,7 +16,7 @@ public abstract class MainGUI extends Application {
 	private static String			version			= "";
 	private static final String		VERSION_KEY		= "Implementation-Version";
 	private static final String		TITLE_KEY		= "Implementation-Title";
-	protected static Logger			LOG;
+	protected static Logger			LOG				= LogManager.getLogger(MainGUI.class);
 	protected static final String	LOG_CONFIG_FILE	= "./log4j.ini";
 	private static MainGUI			instance;
 
