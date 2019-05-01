@@ -5,7 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,7 +20,7 @@ import javafx.stage.Stage;
 
 public abstract class FXMLUtil {
 
-	private static final Logger		LOG				= Logger.getLogger(FXMLUtil.class);
+	private static final Logger		LOG				= LogManager.getLogger(FXMLUtil.class);
 	private static String			styleSheetPath	= "/css/style.css";
 	private static String			defaultStyle	= "";
 	private static Initializable	controller;

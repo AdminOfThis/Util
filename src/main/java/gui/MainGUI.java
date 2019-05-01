@@ -5,8 +5,7 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.jar.Manifest;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
+import org.apache.logging.log4j.Logger;
 
 import javafx.application.Application;
 
@@ -23,7 +22,6 @@ public abstract class MainGUI extends Application {
 	public static void initialize(String pomTitle) {
 		title = getFromManifest(TITLE_KEY, "Frequent", pomTitle);
 		version = getFromManifest(VERSION_KEY, "Local", pomTitle);
-		initLogger();
 	}
 
 	public MainGUI() {
@@ -37,24 +35,11 @@ public abstract class MainGUI extends Application {
 	public abstract boolean close();
 
 	public abstract String getPOMTitle();
-
 // public static void main(String[] args) {
 // initLogger();
 // LOG.info("Started");
 // launch(args);
 // }
-	/**
-	 * sets up the Log4j logger ba reading the properties file
-	 */
-	protected static void initLogger() {
-		try {
-			PropertyConfigurator.configure(LOG_CONFIG_FILE);
-			LOG = Logger.getLogger(MainGUI.class);
-		}
-		catch (Exception e) {
-			LOG.fatal("Unexpected error while initializing logging", e);
-		}
-	}
 
 	public static String getFromManifest(final String key, final String def, String pomTitle) {
 		try {
