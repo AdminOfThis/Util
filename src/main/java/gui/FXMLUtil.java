@@ -96,6 +96,11 @@ public final class FXMLUtil {
 		return result.trim();
 	}
 
+	/**
+	 * Loads teh requested URL file and returns the root of the file as parent
+	 * @param url The URL of the FXML file to load
+	 * @return The root of the loaded file
+	 */
 	public static Parent loadFXML(final URL url) {
 		Parent parent = null;
 		try {
@@ -110,6 +115,12 @@ public final class FXMLUtil {
 		return parent;
 	}
 
+	/**
+	 * Loads the requested FXML file with the controller predefined
+	 * @param url The URL of the FXML file to load
+	 * @param controller The controller for the loaded ressource to set
+	 * @return THe root of the loaded File
+	 */
 	public static Parent loadFXML(final URL url, final Initializable controller) {
 		Parent parent = null;
 		try {
@@ -140,6 +151,12 @@ public final class FXMLUtil {
 		}
 	}
 
+	/**
+	 * Adjussts the time axis of a chart by using the cureent time and the desired length of the frame
+	 * @param xAxis The axis of which the scale is to be adjusted
+	 * @param timeFrame The width of the timeframe, defining the lower bound by *currentTime - timeFrame*
+	 * @param currentTime The current runtime of the system
+	 */
 	public static void updateAxis(final NumberAxis xAxis, final long timeFrame, long currentTime) {
 		long lower = currentTime - timeFrame;
 		xAxis.setLowerBound(lower);
