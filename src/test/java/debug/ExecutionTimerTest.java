@@ -6,9 +6,10 @@ import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
+
 class ExecutionTimerTest {
 
-	@RepeatedTest(10)
+	@RepeatedTest(3)
 	@Execution(ExecutionMode.CONCURRENT)
 	void testExecuteTime() {
 
