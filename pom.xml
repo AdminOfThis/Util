@@ -54,6 +54,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>versions-maven-plugin</artifactId>
+				<version>2.5</version>
 				<configuration>
 					<generateBackupPoms>false</generateBackupPoms>
 				</configuration>
@@ -97,8 +98,13 @@
 				<configuration>
 					<source>8</source>
 					<target>8</target>
+					<additionalClasspathElements>
+						<additionalClasspathElement>${java.home}/target/classes/**/*.class</additionalClasspathElement>
+					</additionalClasspathElements>
 				</configuration>
 			</plugin>
+
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -115,8 +121,20 @@
 					<argLine>-Djava.library.path=. -Djni.library.path=.</argLine>
 					<workingDirectory>${project.basedir}/workdir</workingDirectory>
 					<rerunFailingTestsCount>2</rerunFailingTestsCount>
+					<excludes>
+						<exclude>**/MainTest.java</exclude>
+					</excludes>
+					<executions>
+						<execution>
+							<phase>test</phase>
+							<goals>
+								<goal>test</goal>
+							</goals>
+						</execution>
+					</executions>
 				</configuration>
 			</plugin>
 		</plugins>
+
 	</build>
 </project>
