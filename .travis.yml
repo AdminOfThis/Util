@@ -3,7 +3,7 @@ jdk:
 - oraclejdk8
 - openjdk8
 os:
-- linux
+- windows
 before_script:
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
@@ -26,9 +26,3 @@ deploy:
     on:
       repo: AdminOfThis/Util
       tags: true
-  - provider: bintray
-    file: "./bintray.json"
-    user: "AdminOfThis"
-    key:
-      secure: LyxiGn1pBZgbEAya7TwndnIevC9GheSDrs2DYlp0NiXwTTmDDDzw6KT7y0K33IOq5pdp6Ww25eMmEyj88vJ+f0KgqIPamsRsVJHv1b/syzyIEhroiPUM/tNDr8GdxePyHb+WQzB5Zh2xxoUER8RXJKsLR2w5ffnL/rxI2nnjH1U/5CWSCq3TEUdVfz0uVsOV11p3P3lF3DV+TqmgWTqg9wKjZLsEjt/19+6B/2x1erfp9q9Fx0wXjllEALBrLZKw3che6MLZrCfJ1t6WqibFmxKq5YtlU085vh9MHxToq35x2mPurCI5alz3HW79wn4/Gdt8lx/5UFzrNpcabXHyDQVlwakWtt6PoWHqYx30/Zz7HUv+Rrm2rtJ7NWjF3PccTcSKOc/B4Q2HVp2d/EBZPa2SI2f6ayv8pLVh/dzhuqY3omiSL7g3sKCOLEBscm7vNvOcwYpXOFAXMbSDhEfcl3+dK5rH23HuQ6j9CfB7VdDCr45nT8IsySerFo30QTUgsqQpdc4Rlg8xkDGmlHyPkIGFjmMMcHsAG7KQVAKxB/Us2B20KwdZ/U92O8Hap1QlB34a4cioWA/nlaNr3KtMOvcAOzaqBQgbegsIxKoVolHR2M81bQJNMerbl6zzcuAksTmp09Nk6m5dbE8vdzd0EeyM8KfRygmSt5i9d2Y669Y=
-    skip_cleanup: true # to upload artifacts created during the build
