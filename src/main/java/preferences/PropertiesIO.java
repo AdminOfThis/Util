@@ -6,7 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import com.sun.istack.internal.logging.Logger;
+
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 /**
  * 
@@ -15,7 +17,7 @@ import com.sun.istack.internal.logging.Logger;
  */
 public abstract class PropertiesIO {
 
-	private static final Logger LOG = Logger.getLogger(PropertiesIO.class);
+	private static final Logger LOG = LogManager.getLogger(PropertiesIO.class);
 
 	/**
 	 * Saves the specified properties to a file
@@ -30,7 +32,7 @@ public abstract class PropertiesIO {
 			pref.store(new FileOutputStream(file), null);
 			return true;
 		} catch (IOException e) {
-			LOG.warning("Saving the properties failed");
+			LOG.warn("Saving the properties failed");
 			return false;
 		}
 	}

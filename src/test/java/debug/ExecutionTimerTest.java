@@ -12,7 +12,7 @@ class ExecutionTimerTest {
 	@Execution(ExecutionMode.CONCURRENT)
 	void testExecuteTime() {
 
-		int time = (int) ((Math.random() + 1.0) * 3.0 * 1000.0);
+		int time = (int) ((Math.random() + 1.0) *  1000.0);
 		Runnable e = () -> {
 			try {
 				Thread.sleep(time);
