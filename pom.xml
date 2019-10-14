@@ -49,6 +49,19 @@
 
 	</dependencies>
 	<build>
+		<finalName>${project.name}</finalName>
+		<sourceDirectory>src</sourceDirectory>
+
+		<resources>
+			<resource>
+				<directory>src/**/resources</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</resource>
+		</resources>
+
+
 		<plugins>
 
 			<plugin>

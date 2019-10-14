@@ -79,7 +79,7 @@ class PropertiesIOTest {
 		File file = new File(SAVE_FILE_PATH);
 		PropertiesIO.saveProperties(props, file);
 		assertTrue(file.exists());
-		String newString = "new String, balsfnjkaoeönp";
+		String newString = "new String, balsfnjkaoeanp";
 		props.put(STRING_KEY, newString);
 		PropertiesIO.saveProperties(props, file);
 		assertTrue(file.exists());
