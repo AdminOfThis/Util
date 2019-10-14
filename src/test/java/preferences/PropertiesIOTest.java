@@ -28,6 +28,7 @@ class PropertiesIOTest {
 		File oldFile = new File(SAVE_FILE_PATH);
 		if (oldFile.exists()) {
 			oldFile.delete();
+			oldFile.deleteOnExit();
 		}
 	}
 
