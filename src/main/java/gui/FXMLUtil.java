@@ -16,6 +16,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -164,6 +165,25 @@ public final class FXMLUtil {
 		if ((currentTime - lower) / xAxis.getTickUnit() > 10) {
 			xAxis.setTickUnit(Math.ceil(currentTime - lower) / 10.0);
 		}
+	}
+	
+	
+	public static void setPrefWidthToMaximumRequired(Region... button) {
+
+		double max = 0;
+		Region r = null;
+		for (Region node : button) {
+			if (node.getWidth() > max) {
+				max = node.getWidth();
+				r = node;
+			}
+		}
+		for (Region node : button) {
+			if (!node.equals(r)) {
+				node.setPrefWidth(max);
+			}
+		}
+
 	}
 
 	public static void removeOldData(final long lowerBound, final Series<Number, Number> series) {
