@@ -6,8 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-
 import org.apache.logging.log4j.Logger;
+
 import org.apache.logging.log4j.LogManager;
 
 /**
@@ -18,6 +18,12 @@ import org.apache.logging.log4j.LogManager;
 public abstract class PropertiesIO {
 
 	private static final Logger LOG = LogManager.getLogger(PropertiesIO.class);
+	private static String savePath;
+	private static Properties properties = new Properties();
+
+	public static void setSavePath(String save) {
+		savePath = save;
+	}
 
 	/**
 	 * Saves the specified properties to a file
@@ -41,8 +47,7 @@ public abstract class PropertiesIO {
 	 * Tries to load properties from the specified file
 	 * 
 	 * @param file The file from which the properties should be loaded
-	 * @return The properties contained in the file, an empty properties object
-	 *         otherwise
+	 *
 	 */
 	public static Properties loadProperties(File file) {
 		if (file != null && file.exists() && file.isFile()) {
@@ -50,12 +55,64 @@ public abstract class PropertiesIO {
 			try {
 				Properties result = new Properties();
 				result.load(new FileInputStream(file));
-				return result;
+				properties = result;
+				if (!properties.isEmpty()) {
+					LOG.info(properties.size() + " Properties loaded");
+				}
 			} catch (IOException e) {
+				properties = new Properties();
 			}
+		} else {
+			properties = new Properties();
 		}
-		return new Properties();
 
+		return properties;
+
+	}
+
+	public static Properties loadProperties() {
+		File file = new File(savePath);
+		return loadProperties(file);
+	}
+
+	public static Properties getProperties() {
+		return properties;
+	}
+
+	public static String getProperty(String key) {
+		if (properties.containsKey(key)) {
+			return properties.get(key).toString();
+		} else {
+			return null;
+		}
+	}
+
+	public static boolean getBooleanProperty(String key) {
+		String value = getProperty(key);
+		if (value != null) {
+			return Boolean.parseBoolean(value);
+		}
+		return false;
+	}
+
+	public static void setProperty(String key, Object value) {
+		setProperty(key, value, true);
+
+	}
+
+	public static void setProperty(String key, Object value, boolean save) {
+		try {
+			properties.put(key, value);
+			if (save) {
+				saveProperties();
+			}
+		} catch (Exception e) {
+			LOG.warn("Problem saving properties", e);
+		}
+	}
+
+	public static void saveProperties() {
+		PropertiesIO.saveProperties(properties, new File(savePath));
 	}
 
 }
