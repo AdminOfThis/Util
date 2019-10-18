@@ -21,8 +21,16 @@ public abstract class MainGUI extends Application {
 	private static MainGUI			instance;
 
 	public static void initialize(String pomTitle) {
-		title = getFromManifest(TITLE_KEY, "Frequent", pomTitle);
-		version = getFromManifest(VERSION_KEY, "Local", pomTitle);
+		title = getFromManifest(TITLE_KEY, "Programm", pomTitle);
+		version = getFromManifest(VERSION_KEY, "Local Build", pomTitle);
+	}
+
+	public static void setTitle(String title) {
+		MainGUI.title = title;
+	}
+
+	public static void setVersion(String version) {
+		MainGUI.version = version;
 	}
 
 	public MainGUI() {
