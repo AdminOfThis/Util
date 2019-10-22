@@ -185,29 +185,31 @@ public final class FXMLUtil {
 	}
 
 	public static void removeOldData(final long lowerBound, final Series<Number, Number> series) {
-		try {
-			ArrayList<Data<Number, Number>> removeList = new ArrayList<>();
-			try {
-				ArrayList<Data<Number, Number>> copyList;
-				synchronized (series) {
-					copyList = new ArrayList<>(series.getData());
-				}
-				for (Data<Number, Number> data : copyList) {
-					if (data.getXValue().longValue() < (lowerBound - 100)) {
 
-						removeList.add(data);
-					}
-				}
-			} catch (Exception e) {
-				LOG.error("", e);
+		ArrayList<Data<Number, Number>> removeList = new ArrayList<>();
+		try {
+			ArrayList<Data<Number, Number>> copyList;
+			synchronized (series) {
+				copyList = new ArrayList<>(series.getData());
 			}
-			if (removeList != null) {
-				synchronized (series.getData()) {
-					Platform.runLater(() -> series.getData().removeAll(removeList));
+			for (Data<Number, Number> data : copyList) {
+				if (data.getXValue().longValue() < (lowerBound - 100)) {
+
+					removeList.add(data);
 				}
 			}
 		} catch (Exception e) {
-			LOG.warn("SHIT, SHIT, SHIT");
+			LOG.error("", e);
+		}
+		if (removeList != null) {
+			synchronized (series.getData()) {
+				try {
+					Platform.runLater(() -> series.getData().removeAll(removeList));
+				} catch (Exception e) {
+					LOG.warn("Unable to use FX-Application Thread, removing on this thread");
+					series.getData().removeAll(removeList);
+				}
+			}
 		}
 	}
 
