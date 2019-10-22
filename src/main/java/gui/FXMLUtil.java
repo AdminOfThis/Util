@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -22,10 +23,10 @@ import javafx.stage.Stage;
 
 public final class FXMLUtil {
 
-	private static final Logger		LOG				= LogManager.getLogger(FXMLUtil.class);
-	private static String			styleSheetPath	= "/css/style.css";
-	private static String			defaultStyle	= "";
-	private static Initializable	controller;
+	private static final Logger LOG = LogManager.getLogger(FXMLUtil.class);
+	private static String styleSheetPath = "/css/style.css";
+	private static String defaultStyle = "";
+	private static Initializable controller;
 
 	private static Color colorFade(final Color baseColor, final Color targetColor, final double percent) {
 		Color result = null;
@@ -54,8 +55,7 @@ public final class FXMLUtil {
 				double percentNew = (percent - 1.0 / (colors.length - 1) * index) / (1.0 / (colors.length - 1));
 				return colorFade(baseColor, targetColor, percentNew);
 			}
-		}
-		catch (ArrayIndexOutOfBoundsException e) {
+		} catch (ArrayIndexOutOfBoundsException e) {
 			return colors[0];
 		}
 	}
@@ -76,17 +76,14 @@ public final class FXMLUtil {
 					break;
 				}
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			LOG.warn("Unable to load css value " + value);
 			LOG.debug("", e);
-		}
-		finally {
+		} finally {
 			if (reader != null) {
 				try {
 					reader.close();
-				}
-				catch (IOException e) {
+				} catch (IOException e) {
 					LOG.error("Problem closing file reader", e);
 				}
 			}
@@ -99,6 +96,7 @@ public final class FXMLUtil {
 
 	/**
 	 * Loads teh requested URL file and returns the root of the file as parent
+	 * 
 	 * @param url The URL of the FXML file to load
 	 * @return The root of the loaded file
 	 */
@@ -109,8 +107,7 @@ public final class FXMLUtil {
 			parent = loader.load();
 			setStyleSheet(parent);
 			controller = loader.getController();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			LOG.error("Unable to load FXMLFile", e);
 		}
 		return parent;
@@ -118,7 +115,8 @@ public final class FXMLUtil {
 
 	/**
 	 * Loads the requested FXML file with the controller predefined
-	 * @param url The URL of the FXML file to load
+	 * 
+	 * @param url        The URL of the FXML file to load
 	 * @param controller The controller for the loaded ressource to set
 	 * @return THe root of the loaded File
 	 */
@@ -128,8 +126,7 @@ public final class FXMLUtil {
 			FXMLLoader loader = new FXMLLoader(url);
 			loader.setController(controller);
 			parent = loader.load();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			LOG.error("Unable to load FXMLFile", e);
 		}
 		return parent;
@@ -146,16 +143,18 @@ public final class FXMLUtil {
 		try {
 			p.getStylesheets().add(FXMLUtil.styleSheetPath);
 			p.setStyle(getDefaultStyle());
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			LOG.warn("Unable to style dialog");
 		}
 	}
 
 	/**
-	 * Adjussts the time axis of a chart by using the cureent time and the desired length of the frame
-	 * @param xAxis The axis of which the scale is to be adjusted
-	 * @param timeFrame The width of the timeframe, defining the lower bound by *currentTime - timeFrame*
+	 * Adjussts the time axis of a chart by using the cureent time and the desired
+	 * length of the frame
+	 * 
+	 * @param xAxis       The axis of which the scale is to be adjusted
+	 * @param timeFrame   The width of the timeframe, defining the lower bound by
+	 *                    *currentTime - timeFrame*
 	 * @param currentTime The current runtime of the system
 	 */
 	public static void updateAxis(final NumberAxis xAxis, final long timeFrame, long currentTime) {
@@ -166,8 +165,7 @@ public final class FXMLUtil {
 			xAxis.setTickUnit(Math.ceil(currentTime - lower) / 10.0);
 		}
 	}
-	
-	
+
 	public static void setPrefWidthToMaximumRequired(Region... button) {
 
 		double max = 0;
@@ -187,22 +185,29 @@ public final class FXMLUtil {
 	}
 
 	public static void removeOldData(final long lowerBound, final Series<Number, Number> series) {
-		ArrayList<Data<Number, Number>> removeList = null;
 		try {
-			for (Data<Number, Number> data : series.getData()) {
-				if (data.getXValue().longValue() < (lowerBound - 100)) {
-					if (removeList == null) {
-						removeList = new ArrayList<>();
+			ArrayList<Data<Number, Number>> removeList = new ArrayList<>();
+			try {
+				ArrayList<Data<Number, Number>> copyList;
+				synchronized (series) {
+					copyList = new ArrayList<>(series.getData());
+				}
+				for (Data<Number, Number> data : copyList) {
+					if (data.getXValue().longValue() < (lowerBound - 100)) {
+
+						removeList.add(data);
 					}
-					removeList.add(data);
+				}
+			} catch (Exception e) {
+				LOG.error("", e);
+			}
+			if (removeList != null) {
+				synchronized (series.getData()) {
+					Platform.runLater(() -> series.getData().removeAll(removeList));
 				}
 			}
-		}
-		catch (Exception e) {
-			LOG.error("", e);
-		}
-		if (removeList != null) {
-			series.getData().removeAll(removeList);
+		} catch (Exception e) {
+			LOG.warn("SHIT, SHIT, SHIT");
 		}
 	}
 
@@ -234,8 +239,7 @@ public final class FXMLUtil {
 	public static void setIcon(Stage stage, String logo) {
 		try {
 			stage.getIcons().add(new Image(FXMLUtil.class.getResourceAsStream(logo)));
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			LOG.error("Unable to load logo");
 			LOG.debug("", e);
 		}
