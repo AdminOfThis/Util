@@ -166,7 +166,7 @@ public final class FXMLUtil {
 		}
 	}
 
-	public static void setPrefWidthToMaximumRequired(Region... button) {
+	public static double setPrefWidthToMaximumRequired(Region... button) {
 
 		double max = 0;
 		Region r = null;
@@ -181,7 +181,7 @@ public final class FXMLUtil {
 				node.setPrefWidth(max);
 			}
 		}
-
+		return max;
 	}
 
 	public static void removeOldData(final long lowerBound, final Series<Number, Number> series) {
