@@ -4,9 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import gui.FXMLUtil;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart.Data;
@@ -14,6 +18,19 @@ import javafx.scene.chart.XYChart.Series;
 import javafx.scene.paint.Color;
 
 public class FXMLUtilTest {
+
+	@BeforeAll
+	public static void changeSyso() {
+		PrintStream emptyStream = new PrintStream(new OutputStream() {
+
+			@Override
+			public void write(int arg0) throws IOException {
+			}
+		});
+
+		System.setOut(emptyStream);
+		System.setErr(emptyStream);
+	}
 
 	@Test
 	public void colorFade() {
