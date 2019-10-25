@@ -7,17 +7,15 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.Properties;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class PropertiesIOTest {
+import root.SuperTest;
+
+class PropertiesIOTest extends SuperTest {
 
 	private static final String SAVE_FILE_PATH = "save.conf";
 
@@ -25,19 +23,6 @@ class PropertiesIOTest {
 	private static final String STRING_VALUE = "stringValue3472890q4twserhdfn";
 
 	private Properties props;
-
-	@BeforeAll
-	public static void changeSyso() {
-		PrintStream emptyStream = new PrintStream(new OutputStream() {
-
-			@Override
-			public void write(int arg0) throws IOException {
-			}
-		});
-
-		System.setOut(emptyStream);
-		System.setErr(emptyStream);
-	}
 
 	@BeforeEach
 	@AfterEach

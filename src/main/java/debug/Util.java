@@ -1,7 +1,25 @@
 package debug;
 
-public final class ExecutionTimer {
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 
+public final class Util {
+
+	public static void disableSyso() {
+		PrintStream emptyStream = new PrintStream(new OutputStream() {
+
+			@Override
+			public void write(int arg0) throws IOException {
+			}
+		});
+
+		System.setOut(emptyStream);
+		System.setErr(emptyStream);
+	}
+	
+	
+	
 	public static long executeTime(Runnable e) {
 
 		return executeTime("The execution took" , e);

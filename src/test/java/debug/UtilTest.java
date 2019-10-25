@@ -6,11 +6,14 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
-class ExecutionTimerTest {
+import root.SuperTest;
+
+class UtilTest extends SuperTest {
 
 	@RepeatedTest(3)
 	@Execution(ExecutionMode.CONCURRENT)
@@ -24,18 +27,9 @@ class ExecutionTimerTest {
 				e1.printStackTrace();
 			}
 		};
-		System.setOut(new PrintStream(new OutputStream() {
-
-			@Override
-			public void write(int arg0) throws IOException {
-
-			}
-		}));
-		long result = Math.round(ExecutionTimer.executeTime(e) / 1000000.0);
-		System.setOut(System.out);
-		long min = time - 10;
-
-		long max = time + 10;
+		long result = Math.round(Util.executeTime(e) / 1000000.0);
+		long min = time - 20;
+		long max = time + 20;
 		assertTrue(min <= result && result <= max);
 	}
 
