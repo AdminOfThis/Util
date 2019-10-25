@@ -1,4 +1,4 @@
-package root;
+package test;
 
 import org.junit.jupiter.api.BeforeAll;
 
