@@ -101,16 +101,7 @@ public final class FXMLUtil {
 	 * @return The root of the loaded file
 	 */
 	public static Parent loadFXML(final URL url) {
-		Parent parent = null;
-		try {
-			FXMLLoader loader = new FXMLLoader(url);
-			parent = loader.load();
-			setStyleSheet(parent);
-			controller = loader.getController();
-		} catch (Exception e) {
-			LOG.error("Unable to load FXMLFile", e);
-		}
-		return parent;
+		return loadFXML(url, null);
 	}
 
 	/**
@@ -124,8 +115,14 @@ public final class FXMLUtil {
 		Parent parent = null;
 		try {
 			FXMLLoader loader = new FXMLLoader(url);
-			loader.setController(controller);
+			if (controller != null) {
+				loader.setController(controller);
+			}
 			parent = loader.load();
+			setStyleSheet(parent);
+			if (controller == null) {
+				FXMLUtil.controller = loader.getController();
+			}
 		} catch (Exception e) {
 			LOG.error("Unable to load FXMLFile", e);
 		}
