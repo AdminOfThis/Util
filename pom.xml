@@ -43,14 +43,8 @@
 			<version>3.0.0-M3</version>
 
 		</dependency>
-
-
-
-
-
-
-
 	</dependencies>
+	
 	<build>
 		<finalName>${project.name}</finalName>
 		<sourceDirectory>src</sourceDirectory>
@@ -93,6 +87,10 @@
 								<resource>
 									<directory>src/main/resources</directory>
 									<filtering>true</filtering>
+									<excludes>
+										<exclude>*/**/*.properties</exclude>
+										<exclude>*/**/default.css</exclude>
+									</excludes>
 								</resource>
 								<resource>
 									<directory>src/test/resources</directory>
