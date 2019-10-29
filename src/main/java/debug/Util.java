@@ -6,8 +6,10 @@ import java.io.PrintStream;
 
 public final class Util {
 
+	private static PrintStream emptyStream;
+
 	public static void disableSyso() {
-		PrintStream emptyStream = new PrintStream(new OutputStream() {
+		emptyStream = new PrintStream(new OutputStream() {
 
 			@Override
 			public void write(int arg0) throws IOException {
@@ -17,14 +19,18 @@ public final class Util {
 		System.setOut(emptyStream);
 		System.setErr(emptyStream);
 	}
-	
-	
-	
+
+	public static void closeEmptyStream() {
+		if (emptyStream != null) {
+			emptyStream.close();
+		}
+	}
+
 	public static long executeTime(Runnable e) {
 
-		return executeTime("The execution took" , e);
+		return executeTime("The execution took", e);
 	}
-	
+
 	public static long executeTime(String name, Runnable e) {
 		long timeBefore = System.nanoTime();
 		try {
@@ -35,7 +41,7 @@ public final class Util {
 		}
 		long timeAfter = System.nanoTime();
 		long duration = timeAfter - timeBefore;
-		StringBuilder sb = new StringBuilder(name+" ");
+		StringBuilder sb = new StringBuilder(name + " ");
 		if (duration > 1000.0) {
 			sb.append(Math.round(duration / 1000000.0) + " ms");
 		} else {

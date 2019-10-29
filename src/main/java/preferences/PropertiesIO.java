@@ -34,12 +34,23 @@ public abstract class PropertiesIO {
 	 * @return true if saved successful, false otherwise
 	 */
 	public static boolean saveProperties(Properties pref, File file) {
+		FileOutputStream stream = null;
 		try {
-			pref.store(new FileOutputStream(file), null);
+			stream = new FileOutputStream(file);
+			pref.store(stream, null);
+
 			return true;
 		} catch (IOException e) {
 			LOG.warn("Saving the properties failed");
 			return false;
+		} finally {
+			if (stream != null) {
+				try {
+					stream.close();
+				} catch (IOException e) {
+					LOG.error("Problem closing propeties write stream", e);
+				}
+			}
 		}
 	}
 
@@ -51,16 +62,25 @@ public abstract class PropertiesIO {
 	 */
 	public static Properties loadProperties(File file) {
 		if (file != null && file.exists() && file.isFile()) {
-
+			FileInputStream stream = null;
 			try {
 				Properties result = new Properties();
-				result.load(new FileInputStream(file));
+				stream = new FileInputStream(file);
+				result.load(stream);
 				properties = result;
 				if (!properties.isEmpty()) {
 					LOG.info(properties.size() + " Properties loaded");
 				}
 			} catch (IOException e) {
 				properties = new Properties();
+			} finally {
+				if (stream != null) {
+					try {
+						stream.close();
+					} catch (IOException e) {
+						LOG.error("Unable to close file input stream", e);
+					}
+				}
 			}
 		} else {
 			properties = new Properties();
