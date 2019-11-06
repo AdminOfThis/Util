@@ -10,6 +10,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.target>1.13</maven.compiler.target>
+		<maven.compiler.source>1.13</maven.compiler.source>
 	</properties>
 
 	<dependencies>
@@ -43,8 +45,40 @@
 			<version>3.0.0-M3</version>
 
 		</dependency>
+
+
+		<!-- JAVAFX -->
+
+		<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-controls</artifactId>
+			<version>13.0.1</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-fxml</artifactId>
+			<version>13.0.1</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-swing -->
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-swing</artifactId>
+			<version>13.0.1</version>
+		</dependency>
+
+
+
+
+
+
+
+
 	</dependencies>
-	
+
 	<build>
 		<finalName>${project.name}</finalName>
 		<sourceDirectory>src</sourceDirectory>
