@@ -14,10 +14,5 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 13
-    - name: Install virtual display
-      run: |
-        sudo apt-get install xvfb
-        export DISPLAY=':99.0'
-        Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
     - name: Build with Maven
       run: xvfb-run mvn -B package --file pom.xml
