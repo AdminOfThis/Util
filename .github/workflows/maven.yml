@@ -15,7 +15,7 @@ jobs:
       with:
         java-version: 13
     - name: Install virtual display
-    - run: sudo apt-get install xvfb
+      run: sudo apt-get install xvfb
     - run: export DISPLAY=':99.0'
     - run: Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
     - name: Build with Maven
