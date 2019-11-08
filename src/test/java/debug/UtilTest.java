@@ -23,8 +23,8 @@ class UtilTest extends SuperTest {
 			}
 		};
 		long result = Math.round(Util.executeTime(e) / 1000000.0);
-		long min = time - 20;
-		long max = time + 20;
+		long min = time - 100;
+		long max = time + 100;
 		assertTrue(min <= result && result <= max);
 	}
 
