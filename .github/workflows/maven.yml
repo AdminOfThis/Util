@@ -16,3 +16,9 @@ jobs:
         java-version: 13
     - name: Build with Maven
       run: xvfb-run mvn -B clean compile test install package --file pom.xml
+    - name: Upload Coverage Files
+      if: matrix.os == 'ubuntu-latest'
+      uses: codecov/codecov-action@v1.0.3
+      with:
+        token: ${{secrets.CODECOV_TOKEN}} #required
+        file: ./target/site/jacoco/jacoco.xml #optional
