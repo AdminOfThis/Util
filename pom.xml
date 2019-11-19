@@ -91,53 +91,7 @@
 			</resource>
 		</resources>
 
-
 		<plugins>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.5</version>
-				<executions>
-					<!-- set arg line property for surefire -->
-					<execution>
-						<id>prepare-agent</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-						<configuration>
-							<propertyName>surefireArgLine</propertyName>
-						</configuration>
-					</execution>
-					<!-- set arg line property for failsafe -->
-					<!-- <execution> -->
-					<!-- <id>prepare-agent-integration</id> -->
-					<!-- <goals> -->
-					<!-- <goal>prepare-agent-integration</goal> -->
-					<!-- </goals> -->
-					<!-- <configuration> -->
-					<!-- <propertyName>failsafeArgLine</propertyName> -->
-					<!-- </configuration> -->
-					<!-- </execution> -->
-					<!-- aggregated unit test coverage report -->
-					<execution>
-						<id>aggregate-reports-ut</id>
-						<phase>test</phase>
-						<goals>
-							<goal>report-aggregate</goal>
-						</goals>
-						<configuration>
-							<title>Maven Multimodule Coverage Demo: Coverage of Unit Tests</title>
-							<outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
-							<dataFileExcludes>
-								<!-- exclude coverage data of integration tests -->
-								<dataFileExclude>**/target/jacoco-it.exec</dataFileExclude>
-							</dataFileExcludes>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>versions-maven-plugin</artifactId>
@@ -195,6 +149,42 @@
 				</configuration>
 			</plugin>
 
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.5</version>
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						<configuration>
+							<propertyName>surefireArgLine</propertyName>
+						</configuration>
+					</execution>
+					<execution>
+						<id>prepare-agent-integration</id>
+						<goals>
+							<goal>prepare-agent-integration</goal>
+						</goals>
+						<configuration>
+							<propertyName>failsafeArgLine</propertyName>
+						</configuration>
+					</execution>
+					<execution>
+						<id>jacoco-site</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<append>true</append>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -212,9 +202,6 @@
 					<argLine>-Djava.library.path=. -Djni.library.path=. ${surefireArgLine}</argLine>
 					<workingDirectory>${project.basedir}/workdir</workingDirectory>
 					<rerunFailingTestsCount>2</rerunFailingTestsCount>
-					<excludes>
-						<exclude>**/MainTest.java</exclude>
-					</excludes>
 					<executions>
 						<execution>
 							<phase>test</phase>
