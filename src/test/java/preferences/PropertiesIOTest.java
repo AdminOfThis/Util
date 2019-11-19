@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.util.Properties;
 
 import org.junit.jupiter.api.AfterEach;
@@ -18,6 +19,7 @@ import test.SuperTest;
 class PropertiesIOTest extends SuperTest {
 
 	private static final String SAVE_FILE_PATH = "save.conf";
+	private static final String TEST_FILE_PATH = "/preferences/testFile.conf";
 
 	private static final String STRING_KEY = "string";
 	private static final String STRING_VALUE = "stringValue3472890q4twserhdfn";
@@ -87,7 +89,9 @@ class PropertiesIOTest extends SuperTest {
 	@Test
 	void loadDirectoryFile() {
 		File file = new File("./test");
-		assertTrue(file.mkdir());
+		file.mkdir();
+		assertTrue(file.exists());
+		assertTrue(file.isDirectory());
 		Properties loadedProps = PropertiesIO.loadProperties(file);
 		assertNotNull(loadedProps);
 		assertTrue(loadedProps.isEmpty());
@@ -105,6 +109,24 @@ class PropertiesIOTest extends SuperTest {
 		Properties loadedProps = PropertiesIO.loadProperties(file);
 		assertEquals(props.get(STRING_KEY), loadedProps.get(STRING_KEY));
 		assertEquals(props, loadedProps);
+	}
+
+	@Test
+	void loadTestFile() throws URISyntaxException {
+		File file;
+		try {
+			file = new File(getClass().getResource(TEST_FILE_PATH).toURI());
+
+			assertNotNull(file);
+			System.out.println(file.getAbsolutePath());
+			assertTrue(file.exists());
+			assertTrue(file.isFile());
+			Properties props = PropertiesIO.loadProperties(file);
+			assertNotNull(props);
+			assertFalse(props.isEmpty());
+		} catch (URISyntaxException e) {
+			throw e;
+		}
 	}
 
 }
