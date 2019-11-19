@@ -77,6 +77,23 @@ class PropertiesIOTest extends SuperTest {
 	}
 
 	@Test
+	void loadNullFile() {
+		File file = null;
+		Properties loadedProps = PropertiesIO.loadProperties(file);
+		assertNotNull(loadedProps);
+		assertTrue(loadedProps.isEmpty());
+	}
+
+	@Test
+	void loadDirectoryFile() {
+		File file = new File("./test");
+		assertTrue(file.mkdir());
+		Properties loadedProps = PropertiesIO.loadProperties(file);
+		assertNotNull(loadedProps);
+		assertTrue(loadedProps.isEmpty());
+	}
+
+	@Test
 	void overwriteSetting() {
 		File file = new File(SAVE_FILE_PATH);
 		PropertiesIO.saveProperties(props, file);
