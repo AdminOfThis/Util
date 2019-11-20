@@ -114,19 +114,15 @@ class PropertiesIOTest extends SuperTest {
 	@Test
 	void loadTestFile() throws URISyntaxException {
 		File file;
-		try {
-			file = new File(getClass().getResource(TEST_FILE_PATH).toURI());
+		file = new File(getClass().getResource(TEST_FILE_PATH).toURI());
 
-			assertNotNull(file);
-			System.out.println(file.getAbsolutePath());
-			assertTrue(file.exists());
-			assertTrue(file.isFile());
-			Properties props = PropertiesIO.loadProperties(file);
-			assertNotNull(props);
-			assertFalse(props.isEmpty());
-		} catch (URISyntaxException e) {
-			throw e;
-		}
+		assertNotNull(file);
+		System.out.println(file.getAbsolutePath());
+		assertTrue(file.exists());
+		assertTrue(file.isFile());
+		Properties props = PropertiesIO.loadProperties(file);
+		assertNotNull(props);
+		assertFalse(props.isEmpty());
 	}
 
 }
