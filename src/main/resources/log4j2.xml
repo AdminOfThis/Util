@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration strict="true" status="warn" name="Util-Test">
+<Configuration strict="true" status="warn" name="Util">
 
 	<Filter type="ThresholdFilter" level="trace"/>
 
 	<Appenders>
 		<Console name="STDOUT" target="SYSTEM_OUT" >
 			<PatternLayout pattern="%d{HH:mm:ss} %-5p %-3L:%-30c{1} - %m%n"/>
-			<ThresholdFilter level="warn" />
+			<ThresholdFilter level="info" />
 		</Console>
 
 		<RollingFile name="FILE" fileName="logs/frequent.log" filePattern="logs/$${date:yyyy-MM}/frequent-%d{MM-dd-yyyy}-%i.log">
