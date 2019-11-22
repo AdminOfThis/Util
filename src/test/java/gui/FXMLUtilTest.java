@@ -11,9 +11,8 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.paint.Color;
-import test.SuperTest;
 
-public class FXMLUtilTest extends SuperTest {
+public class FXMLUtilTest {
 
 	@Test
 	public void colorFade() {

@@ -14,9 +14,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import test.SuperTest;
-
-class PropertiesIOTest extends SuperTest {
+class PropertiesIOTest {
 
 	private static final String SAVE_FILE_PATH = "save.conf";
 	private static final String TEST_FILE_PATH = "/preferences/testFile.conf";
