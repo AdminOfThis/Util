@@ -36,11 +36,11 @@ public final class PropertiesIO {
 	 *             already existing
 	 * @return true if saved successful, false otherwise
 	 */
-	public static boolean saveProperties(Properties pref, File file) {
+	public static boolean saveProperties(File file) {
 		FileOutputStream stream = null;
 		try {
 			stream = new FileOutputStream(file);
-			pref.store(stream, null);
+			properties.store(stream, null);
 
 			return true;
 		} catch (IOException e) {
@@ -118,6 +118,10 @@ public final class PropertiesIO {
 		return false;
 	}
 
+	public static void setProperties(Properties value) {
+		properties = value;
+	}
+
 	public static void setProperty(String key, Object value) {
 		setProperty(key, value, true);
 
@@ -135,7 +139,7 @@ public final class PropertiesIO {
 	}
 
 	public static void saveProperties() {
-		PropertiesIO.saveProperties(properties, new File(savePath));
+		PropertiesIO.saveProperties(new File(savePath));
 	}
 
 }

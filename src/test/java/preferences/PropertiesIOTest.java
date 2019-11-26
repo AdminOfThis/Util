@@ -61,7 +61,20 @@ class PropertiesIOTest {
 	void saveAndReload() {
 		File file = new File(SAVE_FILE_PATH);
 		assertFalse(file.exists());
-		PropertiesIO.saveProperties(props, file);
+		PropertiesIO.setProperties(props);
+		PropertiesIO.saveProperties(file);
+		assertTrue(file.exists());
+		Properties loadedProps = PropertiesIO.loadProperties(file);
+		assertEquals(props, loadedProps);
+	}
+
+	@Test
+	void setAndsaveAndReload() {
+		PropertiesIO.setSavePath(SAVE_FILE_PATH);
+		File file = new File(SAVE_FILE_PATH);
+		assertFalse(file.exists());
+		PropertiesIO.setProperties(props);
+		PropertiesIO.saveProperties();
 		assertTrue(file.exists());
 		Properties loadedProps = PropertiesIO.loadProperties(file);
 		assertEquals(props, loadedProps);
@@ -98,11 +111,12 @@ class PropertiesIOTest {
 	@Test
 	void overwriteSetting() {
 		File file = new File(SAVE_FILE_PATH);
-		PropertiesIO.saveProperties(props, file);
+		PropertiesIO.setProperties(props);
+		PropertiesIO.saveProperties(file);
 		assertTrue(file.exists());
 		String newString = "new String, balsfnjkaoeanp";
-		props.put(STRING_KEY, newString);
-		PropertiesIO.saveProperties(props, file);
+		PropertiesIO.setProperty(STRING_KEY, newString);
+		PropertiesIO.saveProperties(file);
 		assertTrue(file.exists());
 		Properties loadedProps = PropertiesIO.loadProperties(file);
 		assertEquals(props.get(STRING_KEY), loadedProps.get(STRING_KEY));
