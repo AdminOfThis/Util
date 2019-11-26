@@ -6,20 +6,23 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.apache.logging.log4j.Logger;
-
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * 
  * @author AdminOfThis
  *
  */
-public abstract class PropertiesIO {
+public final class PropertiesIO {
 
 	private static final Logger LOG = LogManager.getLogger(PropertiesIO.class);
 	private static String savePath;
 	private static Properties properties = new Properties();
+
+	private PropertiesIO() {
+		// not used
+	}
 
 	public static void setSavePath(String save) {
 		savePath = save;
