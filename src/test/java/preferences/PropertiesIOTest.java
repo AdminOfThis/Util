@@ -90,7 +90,7 @@ class PropertiesIOTest {
 
 	@Test
 	void saveFileWhileException() {
-		File file = null;
+		File file = new File(SAVE_FILE_PATH);
 		PropertiesIO.setProperties(props);
 		FileInputStream stream = null;
 		try {
