@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Properties;
 
@@ -21,6 +23,9 @@ class PropertiesIOTest {
 
 	private static final String STRING_KEY = "string";
 	private static final String STRING_VALUE = "stringValue3472890q4twserhdfn";
+
+	private static final String BOOLEAN_KEY = "boolean";
+	private static final String BOOLEAN_VALUE = "true";
 
 	private Properties props;
 
@@ -58,6 +63,13 @@ class PropertiesIOTest {
 	}
 
 	@Test
+	void booleanSetting() {
+		props.put(BOOLEAN_KEY, BOOLEAN_VALUE);
+		PropertiesIO.setProperties(props);
+		assertEquals(true, PropertiesIO.getBooleanProperty(BOOLEAN_KEY));
+	}
+
+	@Test
 	void saveAndReload() {
 		File file = new File(SAVE_FILE_PATH);
 		assertFalse(file.exists());
@@ -66,6 +78,35 @@ class PropertiesIOTest {
 		assertTrue(file.exists());
 		Properties loadedProps = PropertiesIO.loadProperties(file);
 		assertEquals(props, loadedProps);
+	}
+
+	@Test
+	void saveToNullFile() {
+		File file = null;
+		PropertiesIO.setProperties(props);
+		boolean result = PropertiesIO.saveProperties(file);
+		assertFalse(result);
+	}
+
+	@Test
+	void saveFileWhileException() {
+		File file = null;
+		PropertiesIO.setProperties(props);
+		FileInputStream stream = null;
+		try {
+			stream = new FileInputStream(file);
+			boolean result = PropertiesIO.saveProperties(file);
+			assertFalse(result);
+		} catch (Exception e) {
+
+//			fail(e);
+		} finally {
+			try {
+				if (stream != null) {
+					stream.close();
+				}
+			} catch (IOException e) {}
+		}
 	}
 
 	@Test
@@ -85,6 +126,27 @@ class PropertiesIOTest {
 		File file = new File("doesNotExist.conf");
 		assertFalse(file.exists());
 		Properties loadedProps = PropertiesIO.loadProperties(file);
+		assertNotNull(loadedProps);
+		assertTrue(loadedProps.isEmpty());
+	}
+
+	@Test
+	void loadEmptyFile() {
+		File file = new File("empty.conf");
+		try {
+			file.createNewFile();
+			Properties loadedProps = PropertiesIO.loadProperties(file);
+			assertNotNull(loadedProps);
+			assertTrue(loadedProps.isEmpty());
+		} catch (IOException e) {} finally {
+			file.deleteOnExit();
+		}
+	}
+
+	@Test
+	void loadDefaultFile() {
+		PropertiesIO.setSavePath(SAVE_FILE_PATH);
+		Properties loadedProps = PropertiesIO.loadProperties();
 		assertNotNull(loadedProps);
 		assertTrue(loadedProps.isEmpty());
 	}
@@ -115,11 +177,14 @@ class PropertiesIOTest {
 		PropertiesIO.saveProperties(file);
 		assertTrue(file.exists());
 		String newString = "new String, balsfnjkaoeanp";
+		PropertiesIO.setProperty(STRING_KEY, newString, false);
 		PropertiesIO.setProperty(STRING_KEY, newString);
 		PropertiesIO.saveProperties(file);
 		assertTrue(file.exists());
 		Properties loadedProps = PropertiesIO.loadProperties(file);
 		assertEquals(props.get(STRING_KEY), loadedProps.get(STRING_KEY));
+		assertEquals(props.get(STRING_KEY), PropertiesIO.getProperty(STRING_KEY));
+		assertEquals(props.get(STRING_KEY), PropertiesIO.getProperties().get(STRING_KEY));
 		assertEquals(props, loadedProps);
 	}
 

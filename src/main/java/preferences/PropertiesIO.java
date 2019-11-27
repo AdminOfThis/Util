@@ -37,24 +37,28 @@ public final class PropertiesIO {
 	 * @return true if saved successful, false otherwise
 	 */
 	public static boolean saveProperties(File file) {
-		FileOutputStream stream = null;
-		try {
-			stream = new FileOutputStream(file);
-			properties.store(stream, null);
+		boolean result = false;
+		if (file != null) {
+			FileOutputStream stream = null;
+			try {
+				stream = new FileOutputStream(file);
+				properties.store(stream, null);
 
-			return true;
-		} catch (IOException e) {
-			LOG.warn("Saving the properties failed");
-			return false;
-		} finally {
-			if (stream != null) {
-				try {
-					stream.close();
-				} catch (IOException e) {
-					LOG.error("Problem closing propeties write stream", e);
+				result = true;
+			} catch (IOException e) {
+				LOG.warn("Saving the properties failed");
+				result = false;
+			} finally {
+				if (stream != null) {
+					try {
+						stream.close();
+					} catch (IOException e) {
+						LOG.error("Problem closing properties write stream", e);
+					}
 				}
 			}
 		}
+		return result;
 	}
 
 	/**
