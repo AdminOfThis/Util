@@ -131,6 +131,12 @@ public final class PropertiesIO {
 
 	}
 
+	/**
+	 * 
+	 * @param key
+	 * @param value
+	 * @param save
+	 */
 	public static void setProperty(String key, Object value, boolean save) {
 		try {
 			properties.put(key, value);
