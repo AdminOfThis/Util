@@ -114,14 +114,6 @@ public final class PropertiesIO {
 		}
 	}
 
-	public static boolean getBooleanProperty(String key) {
-		String value = getProperty(key);
-		if (value != null) {
-			return Boolean.parseBoolean(value);
-		}
-		return false;
-	}
-
 	public static void setProperties(Properties value) {
 		properties = value;
 	}
@@ -150,6 +142,18 @@ public final class PropertiesIO {
 
 	public static void saveProperties() {
 		PropertiesIO.saveProperties(new File(savePath));
+	}
+
+	public static boolean getBooleanProperty(String key, boolean defaultValue) {
+		String value = getProperty(key);
+		if (value != null) {
+			return Boolean.parseBoolean(value);
+		}
+		return defaultValue;
+	}
+
+	public static boolean getBooleanProperty(String key) {
+		return getBooleanProperty(key, false);
 	}
 
 }
