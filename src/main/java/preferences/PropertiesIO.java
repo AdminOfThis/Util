@@ -107,10 +107,14 @@ public final class PropertiesIO {
 	}
 
 	public static String getProperty(String key) {
-		if (properties.containsKey(key)) {
+		return getProperty(key, null);
+	}
+
+	public static String getProperty(String key, String def) {
+		if (properties != null && properties.containsKey(key)) {
 			return properties.get(key).toString();
 		} else {
-			return null;
+			return def;
 		}
 	}
 
