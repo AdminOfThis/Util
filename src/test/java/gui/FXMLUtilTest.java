@@ -24,12 +24,6 @@ public class FXMLUtilTest {
 	}
 
 	@Test
-	public void toRGB() {
-		assertEquals("#FF0000", FXMLUtil.toRGBCode(Color.RED));
-		assertEquals("#FF0000", FXMLUtil.toRGBCode(Color.web("#FF0000")));
-	}
-
-	@Test
 	public void removeDataFromSeries() throws InterruptedException {
 		Series<Number, Number> series = new Series<>();
 		Data<Number, Number> dataOld = new Data<>(0, 0);
@@ -41,6 +35,12 @@ public class FXMLUtilTest {
 		assertEquals(1, series.getData().size());
 		assertTrue(series.getData().contains(dataNew));
 		assertFalse(series.getData().contains(dataOld));
+	}
+
+	@Test
+	public void toRGB() {
+		assertEquals("#FF0000", FXMLUtil.toRGBCode(Color.RED));
+		assertEquals("#FF0000", FXMLUtil.toRGBCode(Color.web("#FF0000")));
 	}
 
 	@Test

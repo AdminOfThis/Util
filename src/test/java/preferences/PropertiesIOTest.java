@@ -30,6 +30,105 @@ class PropertiesIOTest {
 	private Properties props;
 
 	@BeforeEach
+	void addInitialSettings() {
+		props = new Properties();
+		props.put(STRING_KEY, STRING_VALUE);
+	}
+
+	@Test
+	void booleanSetting() {
+		props.put(BOOLEAN_KEY, BOOLEAN_VALUE);
+		PropertiesIO.setProperties(props);
+		assertEquals(true, PropertiesIO.getBooleanProperty(BOOLEAN_KEY));
+	}
+
+	@Test
+	void loadDefaultFile() {
+		PropertiesIO.setSavePath(SAVE_FILE_PATH);
+		Properties loadedProps = PropertiesIO.loadProperties();
+		assertNotNull(loadedProps);
+		assertTrue(loadedProps.isEmpty());
+	}
+
+	@Test
+	void loadDirectoryFile() {
+		File file = new File("./test");
+		file.mkdir();
+		assertTrue(file.exists());
+		assertTrue(file.isDirectory());
+		Properties loadedProps = PropertiesIO.loadProperties(file);
+		assertNotNull(loadedProps);
+		assertTrue(loadedProps.isEmpty());
+	}
+
+	@Test
+	void loadEmptyFile() {
+		File file = new File("empty.conf");
+		try {
+			file.createNewFile();
+			Properties loadedProps = PropertiesIO.loadProperties(file);
+			assertNotNull(loadedProps);
+			assertTrue(loadedProps.isEmpty());
+		} catch (IOException e) {} finally {
+			file.deleteOnExit();
+		}
+	}
+
+	@Test
+	void loadNonExistingFile() {
+		File file = new File("doesNotExist.conf");
+		assertFalse(file.exists());
+		Properties loadedProps = PropertiesIO.loadProperties(file);
+		assertNotNull(loadedProps);
+		assertTrue(loadedProps.isEmpty());
+	}
+
+	@Test
+	void loadNullFile() {
+		File file = null;
+		Properties loadedProps = PropertiesIO.loadProperties(file);
+		assertNotNull(loadedProps);
+		assertTrue(loadedProps.isEmpty());
+	}
+
+	@Test
+	void loadTestFile() throws URISyntaxException {
+		File file;
+		file = new File(getClass().getResource(TEST_FILE_PATH).toURI());
+
+		assertNotNull(file);
+		System.out.println(file.getAbsolutePath());
+		assertTrue(file.exists());
+		assertTrue(file.isFile());
+		Properties props = PropertiesIO.loadProperties(file);
+		assertNotNull(props);
+		assertFalse(props.isEmpty());
+	}
+
+	@Test
+	void overwriteSetting() {
+		File file = new File(SAVE_FILE_PATH);
+		PropertiesIO.setProperties(props);
+		PropertiesIO.saveProperties(file);
+		assertTrue(file.exists());
+		String newString = "new String, balsfnjkaoeanp";
+		PropertiesIO.setProperty(STRING_KEY, newString, false);
+		PropertiesIO.setProperty(STRING_KEY, newString);
+		PropertiesIO.saveProperties(file);
+		assertTrue(file.exists());
+		Properties loadedProps = PropertiesIO.loadProperties(file);
+		assertEquals(props.get(STRING_KEY), loadedProps.get(STRING_KEY));
+		assertEquals(props.get(STRING_KEY), PropertiesIO.getProperty(STRING_KEY));
+		assertEquals(props.get(STRING_KEY), PropertiesIO.getProperties().get(STRING_KEY));
+		assertEquals(props, loadedProps);
+	}
+
+	@Test
+	void putAndInsertSetting() {
+		assertEquals(STRING_VALUE, props.get(STRING_KEY));
+	}
+
+	@BeforeEach
 	@AfterEach
 	void removeOldFile() {
 		File oldFile = new File(SAVE_FILE_PATH);
@@ -39,34 +138,9 @@ class PropertiesIOTest {
 		}
 	}
 
-	@BeforeEach
-	void addInitialSettings() {
-		props = new Properties();
-		props.put(STRING_KEY, STRING_VALUE);
-	}
-
-	@Test
-	void putAndInsertSetting() {
-		assertEquals(STRING_VALUE, props.get(STRING_KEY));
-	}
-
 	@Test
 	void removeSetting() {
 		assertNull(props.get(STRING_VALUE));
-	}
-
-	@Test
-	void updateSetting() {
-		String newString = "new String";
-		props.put(STRING_KEY, newString);
-		assertEquals(props.get(STRING_KEY), newString);
-	}
-
-	@Test
-	void booleanSetting() {
-		props.put(BOOLEAN_KEY, BOOLEAN_VALUE);
-		PropertiesIO.setProperties(props);
-		assertEquals(true, PropertiesIO.getBooleanProperty(BOOLEAN_KEY));
 	}
 
 	@Test
@@ -78,14 +152,6 @@ class PropertiesIOTest {
 		assertTrue(file.exists());
 		Properties loadedProps = PropertiesIO.loadProperties(file);
 		assertEquals(props, loadedProps);
-	}
-
-	@Test
-	void saveToNullFile() {
-		File file = null;
-		PropertiesIO.setProperties(props);
-		boolean result = PropertiesIO.saveProperties(file);
-		assertFalse(result);
 	}
 
 	@Test
@@ -110,6 +176,14 @@ class PropertiesIOTest {
 	}
 
 	@Test
+	void saveToNullFile() {
+		File file = null;
+		PropertiesIO.setProperties(props);
+		boolean result = PropertiesIO.saveProperties(file);
+		assertFalse(result);
+	}
+
+	@Test
 	void setAndsaveAndReload() {
 		PropertiesIO.setSavePath(SAVE_FILE_PATH);
 		File file = new File(SAVE_FILE_PATH);
@@ -122,84 +196,10 @@ class PropertiesIOTest {
 	}
 
 	@Test
-	void loadNonExistingFile() {
-		File file = new File("doesNotExist.conf");
-		assertFalse(file.exists());
-		Properties loadedProps = PropertiesIO.loadProperties(file);
-		assertNotNull(loadedProps);
-		assertTrue(loadedProps.isEmpty());
-	}
-
-	@Test
-	void loadEmptyFile() {
-		File file = new File("empty.conf");
-		try {
-			file.createNewFile();
-			Properties loadedProps = PropertiesIO.loadProperties(file);
-			assertNotNull(loadedProps);
-			assertTrue(loadedProps.isEmpty());
-		} catch (IOException e) {} finally {
-			file.deleteOnExit();
-		}
-	}
-
-	@Test
-	void loadDefaultFile() {
-		PropertiesIO.setSavePath(SAVE_FILE_PATH);
-		Properties loadedProps = PropertiesIO.loadProperties();
-		assertNotNull(loadedProps);
-		assertTrue(loadedProps.isEmpty());
-	}
-
-	@Test
-	void loadNullFile() {
-		File file = null;
-		Properties loadedProps = PropertiesIO.loadProperties(file);
-		assertNotNull(loadedProps);
-		assertTrue(loadedProps.isEmpty());
-	}
-
-	@Test
-	void loadDirectoryFile() {
-		File file = new File("./test");
-		file.mkdir();
-		assertTrue(file.exists());
-		assertTrue(file.isDirectory());
-		Properties loadedProps = PropertiesIO.loadProperties(file);
-		assertNotNull(loadedProps);
-		assertTrue(loadedProps.isEmpty());
-	}
-
-	@Test
-	void overwriteSetting() {
-		File file = new File(SAVE_FILE_PATH);
-		PropertiesIO.setProperties(props);
-		PropertiesIO.saveProperties(file);
-		assertTrue(file.exists());
-		String newString = "new String, balsfnjkaoeanp";
-		PropertiesIO.setProperty(STRING_KEY, newString, false);
-		PropertiesIO.setProperty(STRING_KEY, newString);
-		PropertiesIO.saveProperties(file);
-		assertTrue(file.exists());
-		Properties loadedProps = PropertiesIO.loadProperties(file);
-		assertEquals(props.get(STRING_KEY), loadedProps.get(STRING_KEY));
-		assertEquals(props.get(STRING_KEY), PropertiesIO.getProperty(STRING_KEY));
-		assertEquals(props.get(STRING_KEY), PropertiesIO.getProperties().get(STRING_KEY));
-		assertEquals(props, loadedProps);
-	}
-
-	@Test
-	void loadTestFile() throws URISyntaxException {
-		File file;
-		file = new File(getClass().getResource(TEST_FILE_PATH).toURI());
-
-		assertNotNull(file);
-		System.out.println(file.getAbsolutePath());
-		assertTrue(file.exists());
-		assertTrue(file.isFile());
-		Properties props = PropertiesIO.loadProperties(file);
-		assertNotNull(props);
-		assertFalse(props.isEmpty());
+	void updateSetting() {
+		String newString = "new String";
+		props.put(STRING_KEY, newString);
+		assertEquals(props.get(STRING_KEY), newString);
 	}
 
 }

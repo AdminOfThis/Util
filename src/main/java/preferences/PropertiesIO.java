@@ -20,45 +20,37 @@ public final class PropertiesIO {
 	private static String savePath;
 	private static Properties properties = new Properties();
 
-	private PropertiesIO() {
-		// not used
+	public static boolean getBooleanProperty(String key) {
+		return getBooleanProperty(key, false);
 	}
 
-	public static void setSavePath(String save) {
-		savePath = save;
-	}
-
-	/**
-	 * Saves the specified properties to a file
-	 * 
-	 * @param pref The properties to save
-	 * @param file The file to which the properties get saved. Get's overwritten if
-	 *             already existing
-	 * @return true if saved successful, false otherwise
-	 */
-	public static boolean saveProperties(File file) {
-		boolean result = false;
-		if (file != null) {
-			FileOutputStream stream = null;
-			try {
-				stream = new FileOutputStream(file);
-				properties.store(stream, null);
-
-				result = true;
-			} catch (IOException e) {
-				LOG.warn("Saving the properties failed");
-				result = false;
-			} finally {
-				if (stream != null) {
-					try {
-						stream.close();
-					} catch (IOException e) {
-						LOG.error("Problem closing properties write stream", e);
-					}
-				}
-			}
+	public static boolean getBooleanProperty(String key, boolean defaultValue) {
+		String value = getProperty(key);
+		if (value != null) {
+			return Boolean.parseBoolean(value);
 		}
-		return result;
+		return defaultValue;
+	}
+
+	public static Properties getProperties() {
+		return properties;
+	}
+
+	public static String getProperty(String key) {
+		return getProperty(key, null);
+	}
+
+	public static String getProperty(String key, String def) {
+		if (properties != null && properties.containsKey(key)) {
+			return properties.get(key).toString();
+		} else {
+			return def;
+		}
+	}
+
+	public static Properties loadProperties() {
+		File file = new File(savePath);
+		return loadProperties(file);
 	}
 
 	/**
@@ -97,25 +89,41 @@ public final class PropertiesIO {
 
 	}
 
-	public static Properties loadProperties() {
-		File file = new File(savePath);
-		return loadProperties(file);
+	public static void saveProperties() {
+		PropertiesIO.saveProperties(new File(savePath));
 	}
 
-	public static Properties getProperties() {
-		return properties;
-	}
+	/**
+	 * Saves the specified properties to a file
+	 * 
+	 * @param pref The properties to save
+	 * @param file The file to which the properties get saved. Get's overwritten if
+	 *             already existing
+	 * @return true if saved successful, false otherwise
+	 */
+	public static boolean saveProperties(File file) {
+		boolean result = false;
+		if (file != null) {
+			FileOutputStream stream = null;
+			try {
+				stream = new FileOutputStream(file);
+				properties.store(stream, null);
 
-	public static String getProperty(String key) {
-		return getProperty(key, null);
-	}
-
-	public static String getProperty(String key, String def) {
-		if (properties != null && properties.containsKey(key)) {
-			return properties.get(key).toString();
-		} else {
-			return def;
+				result = true;
+			} catch (IOException e) {
+				LOG.warn("Saving the properties failed");
+				result = false;
+			} finally {
+				if (stream != null) {
+					try {
+						stream.close();
+					} catch (IOException e) {
+						LOG.error("Problem closing properties write stream", e);
+					}
+				}
+			}
 		}
+		return result;
 	}
 
 	public static void setProperties(Properties value) {
@@ -144,20 +152,12 @@ public final class PropertiesIO {
 		}
 	}
 
-	public static void saveProperties() {
-		PropertiesIO.saveProperties(new File(savePath));
+	public static void setSavePath(String save) {
+		savePath = save;
 	}
 
-	public static boolean getBooleanProperty(String key, boolean defaultValue) {
-		String value = getProperty(key);
-		if (value != null) {
-			return Boolean.parseBoolean(value);
-		}
-		return defaultValue;
-	}
-
-	public static boolean getBooleanProperty(String key) {
-		return getBooleanProperty(key, false);
+	private PropertiesIO() {
+		// not used
 	}
 
 }

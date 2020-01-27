@@ -28,21 +28,6 @@ public final class FXMLUtil {
 	private static String defaultStyle = "";
 	private static Initializable controller;
 
-	private static Color colorFade(final Color baseColor, final Color targetColor, final double percent) {
-		Color result = null;
-		double deltaRed = targetColor.getRed() - baseColor.getRed();
-		double deltaGreen = targetColor.getGreen() - baseColor.getGreen();
-		double deltaBlue = targetColor.getBlue() - baseColor.getBlue();
-		double redD = baseColor.getRed() + deltaRed * percent;
-		double greenD = baseColor.getGreen() + deltaGreen * percent;
-		double blueD = baseColor.getBlue() + deltaBlue * percent;
-		int red = (int) Math.floor(redD * 255.0);
-		int green = (int) Math.floor(greenD * 255.0);
-		int blue = (int) Math.floor(blueD * 255.0);
-		result = Color.rgb(red, green, blue);
-		return result;
-	}
-
 	public static Color colorFade(final double percent, final Color... colors) {
 		try {
 			int index = (int) Math.floor(percent * (colors.length - 1));
@@ -60,8 +45,25 @@ public final class FXMLUtil {
 		}
 	}
 
+	public static String deriveColor(final String baseColor, final int index, final int total) {
+		String result = baseColor;
+		Color color = Color.web(baseColor);
+		double value = (double) index / (double) total;
+		color = color.deriveColor(1, 1, value, 1);
+		result = FXMLUtil.toRGBCode(color);
+		return result;
+	}
+
 	public static Initializable getController() {
 		return controller;
+	}
+
+	public static String getDefaultStyle() {
+		return defaultStyle;
+	}
+
+	public static String getStyleSheetPath() {
+		return styleSheetPath;
 	}
 
 	public static String getStyleValue(final String value) {
@@ -129,58 +131,6 @@ public final class FXMLUtil {
 		return parent;
 	}
 
-	public static String toRGBCode(final Color color) {
-		int red = (int) (color.getRed() * 255);
-		int green = (int) (color.getGreen() * 255);
-		int blue = (int) (color.getBlue() * 255);
-		return String.format("#%02X%02X%02X", red, green, blue);
-	}
-
-	public static void setStyleSheet(Parent p) {
-		try {
-			p.getStylesheets().add(FXMLUtil.styleSheetPath);
-			p.setStyle(getDefaultStyle());
-		} catch (Exception e) {
-			LOG.warn("Unable to style dialog");
-		}
-	}
-
-	/**
-	 * Adjussts the time axis of a chart by using the cureent time and the desired
-	 * length of the frame
-	 * 
-	 * @param xAxis       The axis of which the scale is to be adjusted
-	 * @param timeFrame   The width of the timeframe, defining the lower bound by
-	 *                    *currentTime - timeFrame*
-	 * @param currentTime The current runtime of the system
-	 */
-	public static void updateAxis(final NumberAxis xAxis, final long timeFrame, long currentTime) {
-		long lower = currentTime - timeFrame;
-		xAxis.setLowerBound(lower);
-		xAxis.setUpperBound(currentTime);
-		if ((currentTime - lower) / xAxis.getTickUnit() > 10) {
-			xAxis.setTickUnit(Math.ceil(currentTime - lower) / 10.0);
-		}
-	}
-
-	public static double setPrefWidthToMaximumRequired(Region... button) {
-
-		double max = 0;
-		Region r = null;
-		for (Region node : button) {
-			if (node.getWidth() > max) {
-				max = node.getWidth();
-				r = node;
-			}
-		}
-		for (Region node : button) {
-			if (!node.equals(r)) {
-				node.setPrefWidth(max);
-			}
-		}
-		return max;
-	}
-
 	public static void removeOldData(final long lowerBound, final Series<Number, Number> series) {
 
 		ArrayList<Data<Number, Number>> removeList = new ArrayList<>();
@@ -210,29 +160,8 @@ public final class FXMLUtil {
 		}
 	}
 
-	public static String deriveColor(final String baseColor, final int index, final int total) {
-		String result = baseColor;
-		Color color = Color.web(baseColor);
-		double value = (double) index / (double) total;
-		color = color.deriveColor(1, 1, value, 1);
-		result = FXMLUtil.toRGBCode(color);
-		return result;
-	}
-
-	public static String getDefaultStyle() {
-		return defaultStyle;
-	}
-
 	public static void setDefaultStyle(String defaultStyle) {
 		FXMLUtil.defaultStyle = defaultStyle;
-	}
-
-	public static String getStyleSheetPath() {
-		return styleSheetPath;
-	}
-
-	public static void setStyleSheetPath(String styleSheetPath) {
-		FXMLUtil.styleSheetPath = styleSheetPath;
 	}
 
 	public static void setIcon(Stage stage, String logo) {
@@ -242,5 +171,76 @@ public final class FXMLUtil {
 			LOG.error("Unable to load logo");
 			LOG.debug("", e);
 		}
+	}
+
+	public static double setPrefWidthToMaximumRequired(Region... button) {
+
+		double max = 0;
+		Region r = null;
+		for (Region node : button) {
+			if (node.getWidth() > max) {
+				max = node.getWidth();
+				r = node;
+			}
+		}
+		for (Region node : button) {
+			if (!node.equals(r)) {
+				node.setPrefWidth(max);
+			}
+		}
+		return max;
+	}
+
+	public static void setStyleSheet(Parent p) {
+		try {
+			p.getStylesheets().add(FXMLUtil.styleSheetPath);
+			p.setStyle(getDefaultStyle());
+		} catch (Exception e) {
+			LOG.warn("Unable to style dialog");
+		}
+	}
+
+	public static void setStyleSheetPath(String styleSheetPath) {
+		FXMLUtil.styleSheetPath = styleSheetPath;
+	}
+
+	public static String toRGBCode(final Color color) {
+		int red = (int) (color.getRed() * 255);
+		int green = (int) (color.getGreen() * 255);
+		int blue = (int) (color.getBlue() * 255);
+		return String.format("#%02X%02X%02X", red, green, blue);
+	}
+
+	/**
+	 * Adjussts the time axis of a chart by using the cureent time and the desired
+	 * length of the frame
+	 * 
+	 * @param xAxis       The axis of which the scale is to be adjusted
+	 * @param timeFrame   The width of the timeframe, defining the lower bound by
+	 *                    *currentTime - timeFrame*
+	 * @param currentTime The current runtime of the system
+	 */
+	public static void updateAxis(final NumberAxis xAxis, final long timeFrame, long currentTime) {
+		long lower = currentTime - timeFrame;
+		xAxis.setLowerBound(lower);
+		xAxis.setUpperBound(currentTime);
+		if ((currentTime - lower) / xAxis.getTickUnit() > 10) {
+			xAxis.setTickUnit(Math.ceil(currentTime - lower) / 10.0);
+		}
+	}
+
+	private static Color colorFade(final Color baseColor, final Color targetColor, final double percent) {
+		Color result = null;
+		double deltaRed = targetColor.getRed() - baseColor.getRed();
+		double deltaGreen = targetColor.getGreen() - baseColor.getGreen();
+		double deltaBlue = targetColor.getBlue() - baseColor.getBlue();
+		double redD = baseColor.getRed() + deltaRed * percent;
+		double greenD = baseColor.getGreen() + deltaGreen * percent;
+		double blueD = baseColor.getBlue() + deltaBlue * percent;
+		int red = (int) Math.floor(redD * 255.0);
+		int green = (int) Math.floor(greenD * 255.0);
+		int blue = (int) Math.floor(blueD * 255.0);
+		result = Color.rgb(red, green, blue);
+		return result;
 	}
 }

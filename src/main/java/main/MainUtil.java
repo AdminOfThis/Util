@@ -7,11 +7,13 @@ import java.nio.channels.FileLock;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * @author AdminOfThis
+ *
+ */
 public final class MainUtil {
 
 	private static final Logger LOG = LogManager.getLogger(MainUtil.class);
-
-	private MainUtil() {}
 
 	/**
 	 * Tries to create a lock file to ensure that only only instance of this program
@@ -46,4 +48,6 @@ public final class MainUtil {
 		}
 		return result;
 	}
+
+	private MainUtil() {}
 }
