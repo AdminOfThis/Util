@@ -20,6 +20,10 @@ public final class PropertiesIO {
 	private static String savePath;
 	private static Properties properties = new Properties();
 
+	private PropertiesIO() {
+		// not used
+	}
+
 	public static boolean getBooleanProperty(String key) {
 		return getBooleanProperty(key, false);
 	}
@@ -154,10 +158,6 @@ public final class PropertiesIO {
 
 	public static void setSavePath(String save) {
 		savePath = save;
-	}
-
-	private PropertiesIO() {
-		// not used
 	}
 
 }

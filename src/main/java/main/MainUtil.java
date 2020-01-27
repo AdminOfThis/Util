@@ -15,6 +15,8 @@ public final class MainUtil {
 
 	private static final Logger LOG = LogManager.getLogger(MainUtil.class);
 
+	private MainUtil() {}
+
 	/**
 	 * Tries to create a lock file to ensure that only only instance of this program
 	 * is running at any given time.
@@ -48,6 +50,4 @@ public final class MainUtil {
 		}
 		return result;
 	}
-
-	private MainUtil() {}
 }
