@@ -14,8 +14,11 @@ public final class MainUtil {
 	private MainUtil() {}
 
 	/**
+	 * Tries to create a lock file to ensure that only only instance of this program
+	 * is running at any given time.
 	 * 
-	 * @return
+	 * @param lockFile The path of the lockFile this method should create
+	 * @return false if another instance is already running, true otherwise
 	 */
 	@SuppressWarnings("resource")
 	public static boolean createRunningLockFile(String lockFile) {
