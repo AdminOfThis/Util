@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 public final class PropertiesIO {
 
 	private static final Logger LOG = LogManager.getLogger(PropertiesIO.class);
-	private static String savePath = "./frequent.conf";
+	private static String savePath = "./settings.conf";
 	private static Properties properties = new Properties();
 
 	private PropertiesIO() {
