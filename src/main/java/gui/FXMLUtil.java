@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,6 +28,7 @@ public final class FXMLUtil {
 	private static String styleSheetPath = "/css/style.css";
 	private static String defaultStyle = "";
 	private static Initializable controller;
+	private static ResourceBundle bundle;
 
 	public static Color colorFade(final double percent, final Color... colors) {
 		try {
@@ -116,7 +118,11 @@ public final class FXMLUtil {
 	public static Parent loadFXML(final URL url, final Initializable controller) {
 		Parent parent = null;
 		try {
+
 			FXMLLoader loader = new FXMLLoader(url);
+			if (bundle != null) {
+				loader.setResources(bundle);
+			}
 			if (controller != null) {
 				loader.setController(controller);
 			}
@@ -242,5 +248,10 @@ public final class FXMLUtil {
 		int blue = (int) Math.floor(blueD * 255.0);
 		result = Color.rgb(red, green, blue);
 		return result;
+	}
+
+	public static void setResourceBundle(ResourceBundle tempBundle) {
+		bundle = tempBundle;
+
 	}
 }
