@@ -258,8 +258,8 @@ public final class FXMLUtil {
 
 	}
 
-	public static List<String> getLanguages(final String folderPath, final String languageFileRoot, final String ending) {
-		ArrayList<String> result = new ArrayList<String>();
+	public static List<Locale> getLanguages(final String folderPath, final String languageFileRoot, final String ending) {
+		ArrayList<Locale> result = new ArrayList<>();
 		try {
 			URL url = FXMLUtil.class.getResource("/" + folderPath);
 
@@ -273,7 +273,7 @@ public final class FXMLUtil {
 						languageTag = languageTag.replace("_", "");
 						Locale loc = Locale.forLanguageTag(languageTag);
 						if (loc != null) {
-							result.add(loc.getDisplayLanguage(Locale.ENGLISH));
+							result.add(loc);
 						}
 					}
 				}
