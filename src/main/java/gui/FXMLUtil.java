@@ -1,10 +1,13 @@
 package gui;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.apache.logging.log4j.LogManager;
@@ -254,4 +257,31 @@ public final class FXMLUtil {
 		bundle = tempBundle;
 
 	}
+
+	public static List<String> getLanguages(final String folderPath, final String languageFileRoot, final String ending) {
+		ArrayList<String> result = new ArrayList<String>();
+		try {
+			URL url = FXMLUtil.class.getResource("/" + folderPath);
+
+			File folder = new File(url.toURI());
+			if (folder != null && folder.isDirectory()) {
+				for (File file : folder.listFiles()) {
+					String fileName = file.getName();
+					if (fileName.endsWith(ending) && fileName.startsWith(languageFileRoot)) {
+						String languageTag = fileName.replace(ending, "");
+						languageTag = languageTag.replace(languageFileRoot, "");
+						languageTag = languageTag.replace("_", "");
+						Locale loc = Locale.forLanguageTag(languageTag);
+						if (loc != null) {
+							result.add(loc.getDisplayLanguage(Locale.ENGLISH));
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			LOG.warn("Unable to load available languages", e);
+		}
+		return result;
+	}
+
 }
