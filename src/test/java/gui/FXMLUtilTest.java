@@ -45,7 +45,7 @@ public class FXMLUtilTest {
 
 	@Test
 	public void updateAxis() {
-		//new JFXPanel();
+		new JFXPanel();
 		NumberAxis axis = new NumberAxis(0, 10, 0.0000001);
 		FXMLUtil.updateAxis(axis, 5, 11);
 		assertEquals(11, axis.getUpperBound());
