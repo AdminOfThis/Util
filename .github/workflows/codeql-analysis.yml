@@ -36,6 +36,9 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 13
+        distribution: adopt
+        java-package: jdk
+        architecture: x64
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
