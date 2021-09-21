@@ -14,7 +14,9 @@ jobs:
       uses: actions/setup-java@v2.3.0
       with:
         java-version: 13
-        distribution: zulu
+        distribution: adopt
+        java-package: jdk
+        architecture: x64
     - name: Build with Maven
       run: xvfb-run mvn -B clean compile test install package --file pom.xml
     - name: Upload Coverage Files
