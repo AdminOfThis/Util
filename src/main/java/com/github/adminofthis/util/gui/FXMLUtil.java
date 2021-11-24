@@ -1,4 +1,4 @@
-package gui;
+package com.github.adminofthis.util.gui;
 
 import java.io.BufferedReader;
 import java.io.File;

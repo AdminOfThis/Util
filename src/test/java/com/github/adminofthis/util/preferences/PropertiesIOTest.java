@@ -1,4 +1,4 @@
-package preferences;
+package com.github.adminofthis.util.preferences;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -69,7 +69,8 @@ class PropertiesIOTest {
 			Properties loadedProps = PropertiesIO.loadProperties(file);
 			assertNotNull(loadedProps);
 			assertTrue(loadedProps.isEmpty());
-		} catch (IOException e) {} finally {
+		} catch (IOException e) {
+		} finally {
 			file.deleteOnExit();
 		}
 	}
@@ -171,7 +172,8 @@ class PropertiesIOTest {
 				if (stream != null) {
 					stream.close();
 				}
-			} catch (IOException e) {}
+			} catch (IOException e) {
+			}
 		}
 	}
 

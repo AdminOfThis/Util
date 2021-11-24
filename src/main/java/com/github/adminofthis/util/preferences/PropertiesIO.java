@@ -1,4 +1,4 @@
-package preferences;
+package com.github.adminofthis.util.preferences;
 
 import java.io.File;
 import java.io.FileInputStream;

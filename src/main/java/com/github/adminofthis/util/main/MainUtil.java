@@ -1,4 +1,4 @@
-package main;
+package com.github.adminofthis.util.main;
 
 import java.io.File;
 import java.io.RandomAccessFile;

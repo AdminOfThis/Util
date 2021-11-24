@@ -1,4 +1,4 @@
-package gui;
+package com.github.adminofthis.util.gui;
 
 import javafx.application.Application;
 
