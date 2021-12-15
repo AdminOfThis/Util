@@ -49,21 +49,21 @@
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-controls</artifactId>
-			<version>17</version>
+			<version>17.0.1</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-fxml</artifactId>
-			<version>17</version>
+			<version>17.0.1</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-swing -->
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-swing</artifactId>
-			<version>17</version>
+			<version>17.0.1</version>
 		</dependency>
 
 	</dependencies>
@@ -121,9 +121,6 @@
 						<goals>
 							<goal>report</goal>
 						</goals>
-						<configuration>
-							<append>true</append>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
