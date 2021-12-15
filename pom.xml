@@ -137,7 +137,7 @@
 					<forkCount>4</forkCount>
 					<reuseForks>false</reuseForks>
 					<argLine>-Djava.library.path=. -Djni.library.path=. ${surefireArgLine}</argLine>
-					<workingDirectory>${project.basedir}/workdir</workingDirectory>
+<!-- 					<workingDirectory>${project.basedir}/workdir</workingDirectory> -->
 					<rerunFailingTestsCount>1</rerunFailingTestsCount>
 <!-- 					<executions> -->
 <!-- 						<execution> -->
